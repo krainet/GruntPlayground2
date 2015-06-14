@@ -13,7 +13,7 @@ module.exports = {
      * App files
      */
     app_files: {
-        js: [ 'src/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js' ],
+        js: [ 'src/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js','Gruntfile.js','build.config.js'],
         jsunit: [ 'src/**/*.spec.js' ],
 
         html: [ 'src/index.html' ]
@@ -30,3 +30,4 @@ module.exports = {
         ]
     }
 };
+
