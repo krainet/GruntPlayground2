@@ -8,15 +8,13 @@ module.exports = function(grunt) {
     //watch
     grunt.loadNpmTasks('grunt-contrib-watch');
 
+    //Connect web server
+    grunt.loadNpmTasks('grunt-contrib-connect');
+
     //Cargamos nuestro archivo de configuracion
     var userConfig = require( './build.config.js' );
 
     grunt.initConfig({
-        multi:{
-            target1:[1,2,3],
-            target2:['A','B','C']
-        },
-
         //JSHINT
         jshint: {
             all: [userConfig.app_files.js],
@@ -29,42 +27,54 @@ module.exports = function(grunt) {
                     jQuery: true
                 }
             }
-            /*
-                ignore_warning: {
-                options: {
-                    //'-W015': true,   //Para ignorar este warning concretamente
-                },
-                src: [userConfig.app_files.js],
+        },
+
+        copy: {
+            build_app_assets: {
+                files: [
+                    {
+                        src: ['**'],
+                        dest: '<%= build_dir %>/assets/',
+                        cwd: 'src/assets',
+                        expand: true
+                    }
+                ]
             }
-            */
         },
 
         //WATCH
         watch: {
             scripts: {
                 //Archivos que vigilamos
-                files: [userConfig.app_files.js,'Gruntfile.js'],
+                files: [userConfig.app_files.js,userConfig.app_files.html],
                 //Tareas a ejecutar
                 tasks: ['jshint'],
                 options: {
                     spawn: true,
-                },
+                }
             },
+            options: {
+                livereload: true
+            }
+        },
+
+        //CONNECT DEV-SERVER WITH LIVE RELOAD
+        connect: {
+            devServer: {
+                options: {
+                    port: 9001,
+                    hostname: 'localhost',
+                    serverreload: false,
+                    base: 'build',
+                    livereload: true
+                }
+            }
         }
     });
 
-
-    //Hello TASK
-    grunt.registerTask('helloworld','Hola Mundo',function(){
-        grunt.log.ok('Hello world');
-    });
-
-    //Base Multi Task
-    grunt.registerMultiTask('multi','Multitask test',function(){
-        return true;
-    });
-
     //Default task
-    grunt.registerTask('default', ['helloworld','jshint']);
+    grunt.registerTask('default', ['jshint']);
 
+    //My Own task
+    grunt.registerTask('dev', ['jshint','connect','watch']);
 };

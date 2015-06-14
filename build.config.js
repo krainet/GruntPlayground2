@@ -16,7 +16,7 @@ module.exports = {
         js: [ 'src/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js','Gruntfile.js','build.config.js'],
         jsunit: [ 'src/**/*.spec.js' ],
 
-        html: [ 'src/index.html' ]
+        html: [ 'build/*' ]
     },
 
 
