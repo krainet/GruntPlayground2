@@ -13,6 +13,9 @@ module.exports = {
      * App files
      */
     app_files: {
+        appjs:['src/**/*.js'],
+        apphtml:['src/*.html'],
+        appcss:['src/**/*.css'],
         js: [ 'src/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js','Gruntfile.js','build.config.js'],
         jsunit: [ 'src/**/*.spec.js' ],
 

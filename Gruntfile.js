@@ -8,6 +8,12 @@ module.exports = function(grunt) {
     //watch
     grunt.loadNpmTasks('grunt-contrib-watch');
 
+    //copy files
+    grunt.loadNpmTasks('grunt-contrib-copy');
+
+    //clean files
+    grunt.loadNpmTasks('grunt-contrib-clean');
+
     //Connect web server
     grunt.loadNpmTasks('grunt-contrib-connect');
 
@@ -29,13 +35,36 @@ module.exports = function(grunt) {
             }
         },
 
+        //Clean build dir
+        clean: [userConfig.build_dir],
+
         copy: {
-            build_app_assets: {
+            build_js_files: {
                 files: [
                     {
-                        src: ['**'],
-                        dest: '<%= build_dir %>/assets/',
-                        cwd: 'src/assets',
+                        src: [userConfig.app_files.appjs],
+                        dest: '../'+userConfig.build_dir,
+                        cwd: '.',
+                        expand: true
+                    }
+                ]
+            },
+            build_css_files: {
+                files: [
+                    {
+                        src: [userConfig.app_files.appcss],
+                        dest: userConfig.build_dir,
+                        cwd: '.',
+                        expand: true
+                    }
+                ]
+            },
+            build_html_files: {
+                files: [
+                    {
+                        src: [userConfig.app_files.apphtml],
+                        dest: userConfig.build_dir,
+                        cwd: '.',
                         expand: true
                     }
                 ]
@@ -76,5 +105,6 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['jshint']);
 
     //My Own task
-    grunt.registerTask('dev', ['jshint','connect','watch']);
+    grunt.registerTask('dev', ['jshint','connect','clean','copy:build_js_files','copy:build_css_files',
+        'copy:build_html_files','watch']);
 };
